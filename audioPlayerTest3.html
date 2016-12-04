@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+
+
+
+	<body>
+		<button id="recordBtn" onclick="startRecording();">Record</button>
+		<button id="stopRecBtn" onclick="stopRecording();">Stop Rec</button>
+		<button id="playBtn" onclick="playRecording();">Play</button>
+		<button id="pauseBtn" onclick="pauseRecording();">Pause</button>
+		<p id="statusLabel">Status:</p>
+	</body>
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		
+		// Support for different browsers.
+		navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+		// Create the AudioContext; This is necessary for all audio work.
+		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+		// Create the source so we know that the microphone can be connected.
+		var source = audioContext.createMediaStreamSource(stream);
+
+		// Get references to the html buttons.
+		var recordBtn = document.getElementById("recordBtn");
+		var stopRecBtn = document.getElementById("stopRecBtn");
+		var playBtn = document.getElementById("playBtn");
+		var pauseBtn = document.getElementById("pauseBtn");
+
+		// Make some variables that are going to be set in some methods, then used in others.
+		var theRecording;
+		var biquadFilter;
+
+
+
+
+
+
+		/////////// METHODS FOR RECORDING/PLAYING AUDIO ////////////
+
+		function startRecording() {
+			navigator.mediaDevices.getUserMedia( { audio:true } ).then(function(stream) {
+
+			   	/* use the stream */
+			   	statusLabel.innerHTML = "Status: Recording...";
+
+			   	// Get the audio source.
+			   	var source = audioContext.createMediaStreamSource(stream);
+			   	theRecording = source;
+
+			   	// Setup some properties for the newly started audio recording
+				biquadFilter = audioContext.createBiquadFilter();
+		      	biquadFilter.type = "lowshelf";
+		      	biquadFilter.frequency.value = 1000;
+		      	biquadFilter.gain.value = 50;
+		      	
+		      	theRecording.connect(biquadFilter);
+				biquadFilter.connect(audioContext.destination);
+
+
+			}).catch(function(err) {
+			  /* handle the error */
+			  statusLabel.innerHTML = "Status: Error recording...";
+
+
+
+			});
+		}
+
+		function stopRecording() {
+			theRecording.disconnect(biquadFilter);
+			biquadFilter.disconnect(audioContext.destination);
+		}
+
+
+		function playRecording() {
+			
+		}
+
+
+		function pauseRecording() {
+			if (oscillator != null) {
+				biquadFilter.stop();
+			}
+		}
+
+
+		
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

@@ -5,6 +5,7 @@
 
 
 	<body>
+		<audio id="theAudio"></audio>
 		<button id="recordBtn" onclick="startRecording();">Record</button>
 		<button id="stopRecBtn" onclick="stopRecording();">Stop Rec</button>
 		<button id="playBtn" onclick="playRecording();">Play</button>
@@ -35,11 +36,13 @@
 		var stopRecBtn = document.getElementById("stopRecBtn");
 		var playBtn = document.getElementById("playBtn");
 		var pauseBtn = document.getElementById("pauseBtn");
+		var audio = new Audio();
 
 		// Make some variables that are going to be set in some methods, then used in others.
 		var theRecording;
 		var biquadFilter;
-
+		var oscillator;
+		var mediaStream;
 
 
 
@@ -49,13 +52,14 @@
 
 		function startRecording() {
 			navigator.mediaDevices.getUserMedia( { audio:true } ).then(function(stream) {
-
 			   	/* use the stream */
 			   	statusLabel.innerHTML = "Status: Recording...";
+			   	mediaStream = stream;
 
 			   	// Get the audio source.
 			   	var source = audioContext.createMediaStreamSource(stream);
 			   	theRecording = source;
+
 
 			   	// Setup some properties for the newly started audio recording
 				biquadFilter = audioContext.createBiquadFilter();
@@ -77,22 +81,37 @@
 		}
 
 		function stopRecording() {
+			statusLabel.innerHTML = "Status: Stopped recording.";
+
+			// Set the html element variable
+		   	var audioURL = window.URL.createObjectURL(mediaStream);
+		   	audio = new Audio();
+		   	audio.src = audioURL;
+		   	audio.loop = false;
+
 			theRecording.disconnect(biquadFilter);
 			biquadFilter.disconnect(audioContext.destination);
 		}
 
 
 		function playRecording() {
-			
+			statusLabel.innerHTML = "Status: Playing recording...";
+
+			audio.play();
+			// source = audioContext.createBufferSource();
+			// var buffer = audioContext.createBuffer(2, audioContext.sampleRate * 2.0,  audioContext.sampleRate);
+			// source.buffer = buffer;
+  	// 		source.connect(audioContext.destination);
+  	// 		source.start();
 		}
 
 
 		function pauseRecording() {
+			statusLabel.innerHTML = "Status: Paused recording.";
 			
+			audio.pause();
 		}
 
-
-		
 	</script>
 
 

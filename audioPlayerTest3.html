@@ -45,7 +45,7 @@
 			// Definitions
 			var constraints = { audio: true };
 			var chunks = [];
-			var audio;
+			var audio;	// This "audio" variable serves as the final recording by the user.
 
 
 			var onSuccess = function(stream) {
@@ -63,19 +63,19 @@
 
 
 				stopRecBtn.onclick = function() {
-					statusLabel.innerHTML = "Status: Stopped Recording.";
+					statusLabel.innerHTML = "Status: Stopped Recording... ";
 					mediaRecorder.stop();
 				} // End of stopRecBtn action.
 
 
 				playBtn.onclick = function() {
 					audio.play();
-				}
+				} // End of playBtn action.
 
 
 				pauseBtn.onclick = function() {
-					alert("Working");
-				}
+					audio.pause();
+				} // End of pauseBtn action.
 
 
 
@@ -91,15 +91,16 @@
 
 					// Set some properties
 					audio.controls = true;
-      				var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+      				var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
       				chunks = [];
       				var audioURL = window.URL.createObjectURL(blob);
 					audio.src = audioURL;
-				}
+				} // End of onstop action.
 
 				mediaRecorder.ondataavailable = function(e) {
+					statusLabel.innerHTML += "Recording data is available. Press 'Play' to listen.";
 					chunks.push(e.data);
-				}
+				} // End of ondataavailable action.
 
 			} // End of onSuccess method.
 
@@ -115,37 +116,6 @@
 			navigator.getUserMedia(constraints, onSuccess, onError);
 
 		} // End of if-supported-statement.
-
-
-
-
-		/////////// MediaRecorder Data Handling Methods /////////////
-
-		mediaRecoder.onstop = function(e) {
-			statusLabel.innerHTML = "Status: Stopped Recording... Data is available.";
-
-			// Create and add classes to elements that will be used to play the audio.
-			var clipContainer = document.createElement('article');
-			var audio = document.createElement('audio');
-
-			clipContainer.classList.add('clip');
-			audio.setAttribute('controls', '');
-
-			clipContainer.appendChild(audio);
-			audio.controls = true;
-
-			// Get the audio URL
-			var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-      		chunks = [];
-      		var audioURL = window.URL.createObjectURL(blob);
-			audio.src = audioURL;
-		}
-
-		
-		mediaRecorder.ondataavailable = function(e) {
-      		chunks.push(e.data);
-		}
-
 
 	</script>
 

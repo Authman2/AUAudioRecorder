@@ -6,10 +6,10 @@
 
 	<body>
 		<audio id="theAudio"></audio>
-		<button id="recordBtn" onclick="startRecording();">Record</button>
-		<button id="stopRecBtn" onclick="stopRecording();">Stop Rec</button>
-		<button id="playBtn" onclick="playRecording();">Play</button>
-		<button id="pauseBtn" onclick="pauseRecording();">Pause</button>
+		<button id="recordBtn">Record</button>
+		<button id="stopRecBtn">Stop Rec</button>
+		<button id="playBtn">Play</button>
+		<button id="pauseBtn">Pause</button>
 		<p id="statusLabel">Status:</p>
 	</body>
 
@@ -28,89 +28,124 @@
 		// Create the AudioContext; This is necessary for all audio work.
 		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-		// Create the source so we know that the microphone can be connected.
-		var source = audioContext.createMediaStreamSource(stream);
-
 		// Get references to the html buttons.
 		var recordBtn = document.getElementById("recordBtn");
 		var stopRecBtn = document.getElementById("stopRecBtn");
 		var playBtn = document.getElementById("playBtn");
 		var pauseBtn = document.getElementById("pauseBtn");
-		var audio = new Audio();
-
-		// Make some variables that are going to be set in some methods, then used in others.
-		var theRecording;
-		var biquadFilter;
-		var oscillator;
-		var mediaStream;
 
 
 
 
 
-		/////////// METHODS FOR RECORDING/PLAYING AUDIO ////////////
 
-		function startRecording() {
-			navigator.mediaDevices.getUserMedia( { audio:true } ).then(function(stream) {
-			   	/* use the stream */
-			   	statusLabel.innerHTML = "Status: Recording...";
-			   	mediaStream = stream;
+		////////// Methods //////////
 
-			   	// Get the audio source.
-			   	var source = audioContext.createMediaStreamSource(stream);
-			   	theRecording = source;
+		if(navigator.getUserMedia) {
+			// Definitions
+			var constraints = { audio: true };
+			var chunks = [];
+			var audio;
 
 
-			   	// Setup some properties for the newly started audio recording
-				biquadFilter = audioContext.createBiquadFilter();
-		      	biquadFilter.type = "lowshelf";
-		      	biquadFilter.frequency.value = 1000;
-		      	biquadFilter.gain.value = 50;
-		      	
-		      	theRecording.connect(biquadFilter);
-				biquadFilter.connect(audioContext.destination);
+			var onSuccess = function(stream) {
+				// Initialize the media recorder
+				mediaRecorder = new MediaRecorder(stream);
+				
 
 
-			}).catch(function(err) {
-			  /* handle the error */
-			  statusLabel.innerHTML = "Status: Error recording...";
+				///////// More Methods //////////
+
+				recordBtn.onclick = function() {
+					statusLabel.innerHTML = "Status: Recording...";
+					mediaRecorder.start();
+				} // End of recordBtn action.
+
+
+				stopRecBtn.onclick = function() {
+					statusLabel.innerHTML = "Status: Stopped Recording.";
+					mediaRecorder.stop();
+				} // End of stopRecBtn action.
+
+
+				playBtn.onclick = function() {
+					audio.play();
+				}
+
+
+				pauseBtn.onclick = function() {
+					alert("Working");
+				}
 
 
 
-			});
+				//////// Some methods for when the media recorder has the data. ////////
+
+				mediaRecorder.onstop = function(e) {
+					// Create some new elements in the html
+					var clipContainer = document.createElement('article');
+					audio = document.createElement('audio');
+					clipContainer.classList.add('clip');
+					audio.setAttribute('controls', '');
+					clipContainer.appendChild(audio);
+
+					// Set some properties
+					audio.controls = true;
+      				var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+      				chunks = [];
+      				var audioURL = window.URL.createObjectURL(blob);
+					audio.src = audioURL;
+				}
+
+				mediaRecorder.ondataavailable = function(e) {
+					chunks.push(e.data);
+				}
+
+			} // End of onSuccess method.
+
+
+
+			var onError = function(err) {
+				statusLabel.innerHTML = "Error Recording..."+err;
+			} // End of onError method.
+
+
+
+			// Actually start the navigator
+			navigator.getUserMedia(constraints, onSuccess, onError);
+
+		} // End of if-supported-statement.
+
+
+
+
+		/////////// MediaRecorder Data Handling Methods /////////////
+
+		mediaRecoder.onstop = function(e) {
+			statusLabel.innerHTML = "Status: Stopped Recording... Data is available.";
+
+			// Create and add classes to elements that will be used to play the audio.
+			var clipContainer = document.createElement('article');
+			var audio = document.createElement('audio');
+
+			clipContainer.classList.add('clip');
+			audio.setAttribute('controls', '');
+
+			clipContainer.appendChild(audio);
+			audio.controls = true;
+
+			// Get the audio URL
+			var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+      		chunks = [];
+      		var audioURL = window.URL.createObjectURL(blob);
+			audio.src = audioURL;
 		}
 
-		function stopRecording() {
-			statusLabel.innerHTML = "Status: Stopped recording.";
-
-			// Set the html element variable
-		   	var audioURL = window.URL.createObjectURL(mediaStream);
-		   	audio = new Audio();
-		   	audio.src = audioURL;
-		   	audio.loop = false;
-
-			theRecording.disconnect(biquadFilter);
-			biquadFilter.disconnect(audioContext.destination);
+		
+		mediaRecorder.ondataavailable = function(e) {
+      		chunks.push(e.data);
 		}
 
-
-		function playRecording() {
-			statusLabel.innerHTML = "Status: Playing recording...";
-
-			audio.play();
-			// source = audioContext.createBufferSource();
-			// var buffer = audioContext.createBuffer(2, audioContext.sampleRate * 2.0,  audioContext.sampleRate);
-			// source.buffer = buffer;
-  	// 		source.connect(audioContext.destination);
-  	// 		source.start();
-		}
-
-
-		function pauseRecording() {
-			statusLabel.innerHTML = "Status: Paused recording.";
-			
-			audio.pause();
-		}
 
 	</script>
 

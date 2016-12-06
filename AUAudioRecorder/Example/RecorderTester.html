@@ -22,13 +22,26 @@
 		var stopRecordBtn = document.getElementById("stopRecord");
 		var playBtn = document.getElementById("play");
 		var pauseBtn = document.getElementById("pause");
-		var pauseBtn = document.getElementById("stop");
+		var stopBtn = document.getElementById("stop");
 
 		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 		var audioRec = new AUAudioRecorder(audioContext);
+		audioRec.setOutputFileType("mp3");
 
 		recordBtn.onclick = function() {
 			audioRec.startRecording();
+		}
+		stopRecordBtn.onclick = function() {
+			audioRec.stopRecording();
+		}
+		playBtn.onclick = function() {
+			audioRec.play();
+		}
+		pauseBtn.onclick = function() {
+			audioRec.pause();
+		}
+		stopBtn.onclick = function() {
+			audioRec.stop();
 		}
 
 		

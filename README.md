@@ -33,7 +33,7 @@ audioRec.getRecording();
 
 ```
 
-
+# Author
 - Year: 2016
 - Languages: HTML, Javascript
 - Programmer: Adeola Uthman

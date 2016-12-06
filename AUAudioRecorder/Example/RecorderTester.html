@@ -24,13 +24,7 @@
 		var pauseBtn = document.getElementById("pause");
 		var stopBtn = document.getElementById("stop");
 
-<<<<<<< HEAD:AUAudioRecorder/Example/RecorderTester.html
 		var audioRec = new AUAudioRecorder();
-=======
-		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-		var audioRec = new AUAudioRecorder(audioContext);
-		audioRec.setOutputFileType("mp3");
->>>>>>> 90bc6a064c6c4db6be5a1d4a66219c66fe9b68d2:AUAudioRecorder/Example/RecorderTester.html
 
 		recordBtn.onclick = function() {
 			audioRec.startRecording();
@@ -39,16 +33,12 @@
 			audioRec.stopRecording();
 		}
 		playBtn.onclick = function() {
-<<<<<<< HEAD:AUAudioRecorder/Example/RecorderTester.html
 			/* Either one could be used to play the audio. getRecording() just returns an audio object. */
 
 			audioRec.play();
 
 			// var myRecording = audioRec.getRecording();
 			// myRecording.play();
-=======
-			audioRec.play();
->>>>>>> 90bc6a064c6c4db6be5a1d4a66219c66fe9b68d2:AUAudioRecorder/Example/RecorderTester.html
 		}
 		pauseBtn.onclick = function() {
 			audioRec.pause();

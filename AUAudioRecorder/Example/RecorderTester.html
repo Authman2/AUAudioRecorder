@@ -10,8 +10,10 @@
 		<button id="play">Play</button>
 		<button id="pause">Pause</button>
 		<button id="stop">Stop</button>
+		<button id="stepBack">Step Back</button>
+		<button id="stepForward">Step Forward</button>
 
-		<script type="text/javascript" src="../src/AUAudioRecorder.js"></script>
+		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
 	</body>
 
 
@@ -23,6 +25,8 @@
 		var playBtn = document.getElementById("play");
 		var pauseBtn = document.getElementById("pause");
 		var stopBtn = document.getElementById("stop");
+		var stepBackBtn = document.getElementById("stepBack");
+		var stepForBtn = document.getElementById("stepForward");
 
 		var audioRec = new AUAudioRecorder();
 
@@ -45,6 +49,12 @@
 		}
 		stopBtn.onclick = function() {
 			audioRec.stop();
+		}
+		stepBackBtn.onclick = function() {
+			audioRec.stepBackward();
+		}
+		stepForBtn.onclick = function() {
+			audioRec.stepForward();
 		}
 
 		

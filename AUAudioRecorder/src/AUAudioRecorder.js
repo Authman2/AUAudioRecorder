@@ -41,7 +41,6 @@ AUAudioRecorder.prototype.requestPermission = function() {
 			} // End of onstop action.
 
 			mediaRecorder.ondataavailable = function(e) {
-				console.log("Recording data is available.");
 				chunks.push(e.data);
 			} // End of ondataavailable action.
 
@@ -103,10 +102,23 @@ AUAudioRecorder.prototype.stop = function() {
 };
 
 
-//
+// Goes to the beginning of the audio.
+AUAudioRecorder.prototype.stepBackward = function() {
+	audio.currentTime = 0;
+};
+
+
+// Goes to the end of the audio.
+AUAudioRecorder.prototype.stepForward = function() {
+	audio.currentTime = audio.duration;
+};
+
+
+// Sets the file type for the audio recording.
+// Ex.) mp3, wav, ogg, etc....
 AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
 	outputType = "audio/" + fileType + "; codecs=opus";
-}
+};
 
 
 // Returns the audio object that contains the final recording.

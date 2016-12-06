@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+
+
+
+	<body>
+		<audio id="theAudio"></audio>
+		<button id="recordBtn">Record</button>
+		<button id="stopRecBtn">Stop Rec</button>
+		<button id="playBtn">Play</button>
+		<button id="pauseBtn">Pause</button>
+		<p id="statusLabel">Status:</p>
+	</body>
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		
+		// Support for different browsers.
+		navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+		// Create the AudioContext; This is necessary for all audio work.
+		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+		// Get references to the html buttons.
+		var recordBtn = document.getElementById("recordBtn");
+		var stopRecBtn = document.getElementById("stopRecBtn");
+		var playBtn = document.getElementById("playBtn");
+		var pauseBtn = document.getElementById("pauseBtn");
+
+
+
+
+
+
+		////////// Methods //////////
+
+		if(navigator.getUserMedia) {
+			// Definitions
+			var constraints = { audio: true };
+			var chunks = [];
+			var audio;	// This "audio" variable serves as the final recording by the user.
+
+
+			var onSuccess = function(stream) {
+				// Initialize the media recorder
+				mediaRecorder = new MediaRecorder(stream);
+				
+
+
+				///////// More Methods //////////
+
+				recordBtn.onclick = function() {
+					statusLabel.innerHTML = "Status: Recording...";
+					mediaRecorder.start();
+				} // End of recordBtn action.
+
+
+				stopRecBtn.onclick = function() {
+					statusLabel.innerHTML = "Status: Stopped Recording... ";
+					mediaRecorder.stop();
+				} // End of stopRecBtn action.
+
+
+				playBtn.onclick = function() {
+					audio.play();
+				} // End of playBtn action.
+
+
+				pauseBtn.onclick = function() {
+					audio.pause();
+				} // End of pauseBtn action.
+
+
+
+				//////// Some methods for when the media recorder has the data. ////////
+
+				mediaRecorder.onstop = function(e) {
+					// Create some new elements in the html
+					var clipContainer = document.createElement('article');
+					audio = document.createElement('audio');
+					clipContainer.classList.add('clip');
+					audio.setAttribute('controls', '');
+					clipContainer.appendChild(audio);
+
+					// Set some properties
+					audio.controls = true;
+      				var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+      				chunks = [];
+      				var audioURL = window.URL.createObjectURL(blob);
+					audio.src = audioURL;
+				} // End of onstop action.
+
+				mediaRecorder.ondataavailable = function(e) {
+					statusLabel.innerHTML += "Recording data is available. Press 'Play' to listen.";
+					chunks.push(e.data);
+				} // End of ondataavailable action.
+
+			} // End of onSuccess method.
+
+
+
+			var onError = function(err) {
+				statusLabel.innerHTML = "Error Recording..."+err;
+			} // End of onError method.
+
+
+
+			// Actually start the navigator
+			navigator.getUserMedia(constraints, onSuccess, onError);
+
+		} // End of if-supported-statement.
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

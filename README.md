@@ -19,7 +19,7 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 ```html
 <script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
 ```
-- Step 2: Assuming you have already created buttons in your HTML file and already have your own Javascript file for your webpage, you can create a new AUAudioRecorder object and call method from it when buttons are clicked.
+- Step 2: Assuming you have already created buttons in your HTML file and already have your own Javascript file for your webpage, you can create a new AUAudioRecorder object and call methods from it when buttons are clicked.
 ```javascript
 var audioRec = new AUAudioRecorder();
 

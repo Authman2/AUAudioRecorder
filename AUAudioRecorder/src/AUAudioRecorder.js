@@ -1,11 +1,11 @@
-var AUAudioRecorder = function(audioContext) {
+var AUAudioRecorder = function() {
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 	var hasPermission = false;
 
 	var mediaRecorder;
 
-	var outputType;
+	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
 
 	var audio;	// This "audio" variable serves as the final recording by the user.
 };
@@ -13,6 +13,7 @@ var AUAudioRecorder = function(audioContext) {
 
 // Asks the user for their permission to access the computer's microphone.
 AUAudioRecorder.prototype.requestPermission = function() {
+	outputType = "audio/mp3; codecs=opus";
 	if(navigator.getUserMedia) {
 		// Definitions
 		var constraints = { audio: true };
@@ -33,7 +34,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
 
 				// Set some properties
 				audio.controls = true;
-  				var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+  				var blob = new Blob(chunks, { 'type' : outputType });
   				chunks = [];
   				var audioURL = window.URL.createObjectURL(blob);
 				audio.src = audioURL;
@@ -67,7 +68,6 @@ AUAudioRecorder.prototype.hasPermission = function() {
 AUAudioRecorder.prototype.startRecording = function() {
 	if (this.hasPermission == true) {
 		mediaRecorder.start();
-		console.log("Recording");
 	} else {
 		this.requestPermission();
 	}
@@ -76,37 +76,23 @@ AUAudioRecorder.prototype.startRecording = function() {
 
 // Stops the recording.
 AUAudioRecorder.prototype.stopRecording = function() {
-	mediaRecorder.stop();
-
-	// Create some new elements in the html
-	var chunks = [];
-	var clipContainer = document.createElement('article');
-	audio = document.createElement('audio');
-	clipContainer.classList.add('clip');
-	audio.setAttribute('controls', '');
-	clipContainer.appendChild(audio);
-
-	// Set some properties
-	audio.controls = true;
-	var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
-	chunks = [];
-	var audioURL = window.URL.createObjectURL(blob);
-	audio.src = audioURL;
-	console.log("Stopped Recording");
+	if (this.hasPermission == true) {
+		mediaRecorder.stop();
+	} else {
+		this.requestPermission();
+	}
 };
 
 
 // Plays the recording.
 AUAudioRecorder.prototype.play = function() {
 	audio.play();
-	console.log("Playing");
 };
 
 
 // Pauses the recording.
 AUAudioRecorder.prototype.pause = function() {
 	audio.pause();
-	console.log("Paused");
 };
 
 
@@ -114,13 +100,14 @@ AUAudioRecorder.prototype.pause = function() {
 AUAudioRecorder.prototype.stop = function() {
 	audio.pause();
 	audio.currentTime = 0;
-	console.log("Stopped");
 };
 
 
+//
 AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
-	outputType = fileType;
+	outputType = "audio/" + fileType + "; codecs=opus";
 }
+
 
 // Returns the audio object that contains the final recording.
 AUAudioRecorder.prototype.getRecording = function() {

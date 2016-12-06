@@ -24,9 +24,7 @@
 		var pauseBtn = document.getElementById("pause");
 		var stopBtn = document.getElementById("stop");
 
-		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-		var audioRec = new AUAudioRecorder(audioContext);
-		audioRec.setOutputFileType("mp3");
+		var audioRec = new AUAudioRecorder();
 
 		recordBtn.onclick = function() {
 			audioRec.startRecording();
@@ -35,7 +33,12 @@
 			audioRec.stopRecording();
 		}
 		playBtn.onclick = function() {
+			/* Either one could be used to play the audio. getRecording() just returns an audio object. */
+
 			audioRec.play();
+
+			// var myRecording = audioRec.getRecording();
+			// myRecording.play();
 		}
 		pauseBtn.onclick = function() {
 			audioRec.pause();

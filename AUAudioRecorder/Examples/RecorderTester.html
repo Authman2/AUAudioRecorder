@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AUAudioRecorder Tester</title>
+	</head>
+	
+	<body>
+		<button id="record">Record</button>
+		<button id="stopRecord">Stop Record</button>
+		<button id="play">Play</button>
+		<button id="pause">Pause</button>
+		<button id="stop">Stop</button>
+
+		<script type="text/javascript" src="../src/AUAudioRecorder.js"></script>
+	</body>
+
+
+
+
+	<script type="text/javascript">
+		var recordBtn = document.getElementById("record");
+		var stopRecordBtn = document.getElementById("stopRecord");
+		var playBtn = document.getElementById("play");
+		var pauseBtn = document.getElementById("pause");
+		var pauseBtn = document.getElementById("stop");
+
+		var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+		var audioRec = new AUAudioRecorder(audioContext);
+
+		recordBtn.onclick = function() {
+			audioRec.startRecording();
+		}
+
+		
+
+
+	</script>
+
+</html>

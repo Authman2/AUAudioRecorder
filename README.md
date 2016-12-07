@@ -29,6 +29,8 @@ audioRec.stopRecording();
 audioRec.play();
 audioRec.pause();
 audioRec.stop();
+audioRec.stepBackward();
+audioRec.stepForward();
 audioRec.getRecording();
 
 ```

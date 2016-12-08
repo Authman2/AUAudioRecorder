@@ -10,7 +10,6 @@ var AUAudioRecorder = function() {
 	var audio;	// This "audio" variable serves as the final recording by the user.
 };
 
-
 // Asks the user for their permission to access the computer's microphone.
 AUAudioRecorder.prototype.requestPermission = function() {
 	outputType = "audio/mp3; codecs=opus";
@@ -23,6 +22,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
 		var onSuccess = function(stream) {
 			// Initialize the media recorder
 			mediaRecorder = new MediaRecorder(stream);
+			permission = true;
 
 			mediaRecorder.onstop = function(e) {
 				// Create some new elements in the html
@@ -47,25 +47,25 @@ AUAudioRecorder.prototype.requestPermission = function() {
 		} // End of onSuccess
 
 		var onError = function(err) {
+			permission = false;
 			console.log("ERROR: " + err);
 		} // End of onError
 
 		navigator.getUserMedia(constraints, onSuccess, onError);
-		this.permission = true;
 	} // End of if-supported-statement.
 };
 
 
 // Returns whether or not the program has the user's permission to use the microphone.
 AUAudioRecorder.prototype.hasPermission = function() {
-	return this.permission;
+	return (permission == true) ? true : false;
 };
 
 
 
 // Starts the recording.
 AUAudioRecorder.prototype.startRecording = function() {
-	if (this.permission == true) {
+	if (permission == true) {
 		mediaRecorder.start();
 	} else {
 		this.requestPermission();
@@ -75,10 +75,10 @@ AUAudioRecorder.prototype.startRecording = function() {
 
 // Stops the recording.
 AUAudioRecorder.prototype.stopRecording = function() {
-	if (this.permission == true) {
+	if (permission == true) {
 		mediaRecorder.stop();
 	} else {
-		this.requestPermission();
+		requestPermission();
 	}
 };
 

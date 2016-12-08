@@ -14,6 +14,7 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 - **requestPermission()**: Asks the user for permission to access the computer’s microphone. This is automatically called by the startRecording() method if permission was not already given, however permission can be requested beforehand by calling this method.
 - **hasPermission()**: Returns true/false if the user has given permission to use the computer's microphone.
 - **getRecording()**: Returns an audio object that contains the recorded audio.
+- **setOutputFileType(fileType)**: Sets the type of file that the audio will be formatted to. The "fileType" parameter is the file extension that you would like to use (i.e. mp3, wav, ogg). The default file type is mp3.
 
 
 # How To
@@ -26,6 +27,8 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 var audioRec = new AUAudioRecorder();
 
 
+audioRec.hasPermission();
+audioRec.requestPermission();
 audioRec.startRecording();
 audioRec.stopRecording();
 audioRec.play();
@@ -33,7 +36,10 @@ audioRec.pause();
 audioRec.stop();
 audioRec.stepBackward();
 audioRec.stepForward();
+audioRec.clear();
 audioRec.getRecording();
+audioRec.setOutputFileType("mp3");
+
 
 ```
 

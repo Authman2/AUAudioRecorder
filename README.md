@@ -10,7 +10,9 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 - **stop()**: Stops the audio from playing and sends it back to the beginning.
 - **stepBackward()**: Starts the audio from the beginning but does not pause it.
 - **stepForward()**: Sends the audio to the end. Basically just stops it from playing by doing this.
+- **clear()**: Deletes the currently recorded audio.
 - **requestPermission()**: Asks the user for permission to access the computer’s microphone. This is automatically called by the startRecording() method if permission was not already given, however permission can be requested beforehand by calling this method.
+- **hasPermission()**: Returns true/false if the user has given permission to use the computer's microphone.
 - **getRecording()**: Returns an audio object that contains the recorded audio.
 
 

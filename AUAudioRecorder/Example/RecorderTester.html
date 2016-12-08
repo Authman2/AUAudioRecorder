@@ -5,6 +5,7 @@
 	</head>
 	
 	<body>
+		<button id="permission">Get Permission</button>
 		<button id="record">Record</button>
 		<button id="stopRecord">Stop Record</button>
 		<button id="play">Play</button>
@@ -12,14 +13,16 @@
 		<button id="stop">Stop</button>
 		<button id="stepBack">Step Back</button>
 		<button id="stepForward">Step Forward</button>
+		<button id="clear">Clear</button>
 
-		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
+		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder-jpj9.js"></script>
 	</body>
 
 
 
 
 	<script type="text/javascript">
+		var permissionBtn = document.getElementById("permission");
 		var recordBtn = document.getElementById("record");
 		var stopRecordBtn = document.getElementById("stopRecord");
 		var playBtn = document.getElementById("play");
@@ -27,9 +30,13 @@
 		var stopBtn = document.getElementById("stop");
 		var stepBackBtn = document.getElementById("stepBack");
 		var stepForBtn = document.getElementById("stepForward");
+		var clearBtn = document.getElementById("clear");
 
 		var audioRec = new AUAudioRecorder();
 
+		permissionBtn.onclick = function() {
+			audioRec.requestPermission();
+		}
 		recordBtn.onclick = function() {
 			audioRec.startRecording();
 		}
@@ -55,6 +62,9 @@
 		}
 		stepForBtn.onclick = function() {
 			audioRec.stepForward();
+		}
+		clearBtn.onclick = function() {
+			audioRec.clear();
 		}
 
 		

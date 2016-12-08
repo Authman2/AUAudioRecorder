@@ -1,7 +1,7 @@
 var AUAudioRecorder = function() {
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-	var hasPermission = false;
+	var permission = false;
 
 	var mediaRecorder;
 
@@ -51,21 +51,21 @@ AUAudioRecorder.prototype.requestPermission = function() {
 		} // End of onError
 
 		navigator.getUserMedia(constraints, onSuccess, onError);
-		this.hasPermission = true;
+		this.permission = true;
 	} // End of if-supported-statement.
 };
 
 
 // Returns whether or not the program has the user's permission to use the microphone.
 AUAudioRecorder.prototype.hasPermission = function() {
-	return this.hasPermission;
+	return this.permission;
 };
 
 
 
 // Starts the recording.
 AUAudioRecorder.prototype.startRecording = function() {
-	if (this.hasPermission == true) {
+	if (this.permission == true) {
 		mediaRecorder.start();
 	} else {
 		this.requestPermission();
@@ -75,7 +75,7 @@ AUAudioRecorder.prototype.startRecording = function() {
 
 // Stops the recording.
 AUAudioRecorder.prototype.stopRecording = function() {
-	if (this.hasPermission == true) {
+	if (this.permission == true) {
 		mediaRecorder.stop();
 	} else {
 		this.requestPermission();
@@ -111,6 +111,12 @@ AUAudioRecorder.prototype.stepBackward = function() {
 // Goes to the end of the audio.
 AUAudioRecorder.prototype.stepForward = function() {
 	audio.currentTime = audio.duration;
+};
+
+
+// Clears the current recording.
+AUAudioRecorder.prototype.clear = function() {
+	audio = null;
 };
 
 

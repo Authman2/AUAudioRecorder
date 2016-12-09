@@ -3,7 +3,7 @@
 An audio recorder written in Javascript and HTML. The main audio recorder is in the file 'AUAudioRecorder.js' which contains the AUAudioRecorder object. To see a very simple example of the audio recorder at work, navigate to the 'RecorderTester.html' file in the Example folder.
 
 # Methods
-- **startRecording()**: <br>Starts the recording process. If the program does not have permission to access the computer’s microphone yet, it will ask the user for it.
+- **startRecording()**: <br>Starts the recording process. The method "requestPermission()" must be called first so that the program has permission to access the computer's microphone.
 ```javascript
 audioRec.startRecording();
 ```

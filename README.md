@@ -15,6 +15,7 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 - **hasPermission()**: Returns true/false if the user has given permission to use the computer's microphone.
 - **getRecording()**: Returns an audio object that contains the recorded audio.
 - **setOutputFileType(fileType)**: Sets the type of file that the audio will be formatted to. The "fileType" parameter is the file extension that you would like to use (i.e. mp3, wav, ogg). The default file type is mp3.
+- **getStream()**: Returns the stream used by the Web Audio API that handles the recording. This method would be useful if one would like to do other things with the Web Audio API such as drawing it on a canvas or adding sound effects. 
 
 
 # How To
@@ -39,6 +40,7 @@ audioRec.stepForward();
 audioRec.clear();
 audioRec.getRecording();
 audioRec.setOutputFileType("mp3");
+audioRec.getStream();
 
 
 ```

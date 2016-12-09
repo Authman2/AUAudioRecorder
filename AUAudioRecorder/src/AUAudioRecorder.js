@@ -8,6 +8,8 @@ var AUAudioRecorder = function() {
 	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
 
 	var audio;	// This "audio" variable serves as the final recording by the user.
+
+	var mediaStream;
 };
 
 // Asks the user for their permission to access the computer's microphone.
@@ -22,6 +24,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
 		var onSuccess = function(stream) {
 			// Initialize the media recorder
 			mediaRecorder = new MediaRecorder(stream);
+			mediaStream = stream;
 
 			mediaRecorder.onstop = function(e) {
 				// Create some new elements in the html
@@ -122,4 +125,10 @@ AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
 // Returns the audio object that contains the final recording.
 AUAudioRecorder.prototype.getRecording = function() {
 	return audio;
+};
+
+
+// This returns the media stream from the web audio API.
+AUAudioRecorder.prototype.getStream = function() {
+	return mediaStream;
 };

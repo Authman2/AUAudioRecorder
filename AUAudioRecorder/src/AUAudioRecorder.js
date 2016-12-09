@@ -10,6 +10,8 @@ var AUAudioRecorder = function() {
 	var audio;	// This "audio" variable serves as the final recording by the user.
 
 	var mediaStream;
+
+	var shouldLoop;
 };
 
 // Asks the user for their permission to access the computer's microphone.
@@ -94,6 +96,16 @@ AUAudioRecorder.prototype.pause = function() {
 AUAudioRecorder.prototype.stop = function() {
 	audio.pause();
 	audio.currentTime = 0;
+};
+
+
+// Loops the recorded audio.
+AUAudioRecorder.prototype.loop = function(bool) {
+	if(bool == true) {
+		audio.loop = true;
+	} else {
+		audio.loop = false;
+	}
 };
 
 

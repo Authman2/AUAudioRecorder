@@ -39,7 +39,7 @@ audioRec.stepForward();
 ```javascript
 audioRec.clear();
 ```
-- **requestPermission()**: <br>Asks the user for permission to access the computer’s microphone. This is automatically called by the startRecording() method if permission was not already given, however permission can be requested beforehand by calling this method.
+- **requestPermission()**: <br>Asks the user for permission to access the computer’s microphone. 
 ```javascript
 audioRec.requestPermission();
 ```

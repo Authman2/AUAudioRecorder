@@ -41,7 +41,7 @@ audioRec.clear();
 ```
 - **isFinished()**: <br>Returns whether or not the audio is finished playing.
 <br>
-```
+```javascript
 audioRec.isFinished();
 ```
 - **requestPermission()**: <br>Asks the user for permission to access the computer’s microphone. 
@@ -87,6 +87,7 @@ audioRec.stop();
 audioRec.stepBackward();
 audioRec.stepForward();
 audioRec.clear();
+audioRec.isFinished();
 audioRec.getRecording();
 audioRec.setOutputFileType("mp3");
 audioRec.getStream();

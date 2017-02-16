@@ -127,6 +127,15 @@ AUAudioRecorder.prototype.clear = function() {
 };
 
 
+// Returns whether or not the audio is finished playing.
+AUAudioRecorder.prototype.isFinished = function() {
+	if(audio != null) {
+		return audio.ended;
+	}
+	return false;
+};
+
+
 // Sets the file type for the audio recording.
 // Ex.) mp3, wav, ogg, etc....
 AUAudioRecorder.prototype.setOutputFileType = function(fileType) {

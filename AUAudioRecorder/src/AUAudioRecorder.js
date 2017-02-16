@@ -129,10 +129,8 @@ AUAudioRecorder.prototype.clear = function() {
 
 // Returns whether or not the audio is finished playing.
 AUAudioRecorder.prototype.isFinished = function() {
-	if(audio != null) {
-		return audio.ended;
-	}
-	return false;
+	if(audio != null) { return audio.ended; }
+	return undefined;
 };
 
 

@@ -5,19 +5,30 @@ var AUAudioRecorder = function() {
 
 	var mediaRecorder;
 
-	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
+	var outputType; // Default is mp3
 
 	var audio;	// This "audio" variable serves as the final recording by the user.
 
+    var theblob;   // The blob that can be used for file operations.
+    
 	var mediaStream;
 
-	var shouldLoop;
+	var shouldLoop = false;
+    
+    var playing = false;
 };
 
-// Asks the user for their permission to access the computer's microphone.
+
+/************************
+*
+*       Modifiers
+*
+*************************/
+
+/* Asks the user for their permission to access the computer's microphone. */
 AUAudioRecorder.prototype.requestPermission = function() {
-	outputType = "audio/mp3; codecs=opus";
 	if(navigator.getUserMedia) {
+        outputType = "audio/mp3; codecs=opus";
 		// Definitions
 		var constraints = { audio: true };
 		var chunks = [];
@@ -42,6 +53,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
   				chunks = [];
   				var audioURL = window.URL.createObjectURL(blob);
 				audio.src = audioURL;
+                theblob = blob;
 			} // End of onstop action.
 
 			mediaRecorder.ondataavailable = function(e) {
@@ -60,94 +72,154 @@ AUAudioRecorder.prototype.requestPermission = function() {
 };
 
 
-// Returns whether or not the program has the user's permission to use the microphone.
+/* Starts the recording. */
+AUAudioRecorder.prototype.startRecording = function() {
+	if(mediaRecorder != null) {
+        mediaRecorder.start();
+    }
+};
+
+
+/* Stops the recording. */
+AUAudioRecorder.prototype.stopRecording = function() {
+    if(mediaRecorder != null) {
+	   mediaRecorder.stop();
+    }
+};
+
+
+/* Plays the recording. */
+AUAudioRecorder.prototype.play = function() {
+	if(audio != null) {
+        audio.play();
+        playing = true;
+    }
+};
+
+
+/* Pauses the recording. */
+AUAudioRecorder.prototype.pause = function() {
+	if(audio != null) {
+        audio.pause();
+        playing = false;
+    }
+};
+
+
+/* Stops the recording from playing. Calling 'play' will start it from the beginning. */
+AUAudioRecorder.prototype.stop = function() {
+    if(audio != null) {
+        audio.pause();
+        audio.currentTime = 0;
+        playing = false;
+    }
+};
+
+
+/* Loops the recorded audio. */
+AUAudioRecorder.prototype.loop = function(bool) {
+    if( audio != null ) {
+        (bool == true) ? audio.loop = true : audio.loop = false;
+    }
+};
+
+
+/* Goes to the beginning of the audio. */
+AUAudioRecorder.prototype.stepBackward = function() {
+	if(audio != null) {
+        audio.currentTime = 0;
+    }
+};
+
+
+/* Goes to the end of the audio. */
+AUAudioRecorder.prototype.stepForward = function() {
+    if(audio != null) {
+	   audio.currentTime = audio.duration;
+    }
+};
+
+
+/* Clears the current recording. */
+AUAudioRecorder.prototype.clear = function() {
+	audio = null;
+    playing = false;
+};
+
+
+/* Sets the file type for the audio recording.
+Ex.) mp3, wav, ogg, etc.... */
+AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
+	outputType = "audio/" + fileType + "; codecs=opus";
+};
+
+
+
+
+/************************
+*
+*       Accessors
+*
+*************************/
+
+
+/* Returns whether or not the program has the user's permission to use the microphone. */
 AUAudioRecorder.prototype.hasPermission = function() {
 	if(this.permission == undefined) return false;
 	return (this.permission == true) ? true : false;
 };
 
 
-
-// Starts the recording.
-AUAudioRecorder.prototype.startRecording = function() {
-	mediaRecorder.start();
+/* Returns whether or not the audio will loop. */
+AUAudioRecorder.prototype.isLooping = function() {
+    if(audio != null) {
+        if(audio.loop == true) { return true; } else { return false; }
+    }
 };
 
 
-// Stops the recording.
-AUAudioRecorder.prototype.stopRecording = function() {
-	mediaRecorder.stop();
+/* Returns whether or not the audio is currently playing. */
+AUAudioRecorder.prototype.isPlaying = function() {
+    if(audio != null) {
+        if( (audio.currentTime == audio.duration && audio.loop == false) || (audio.currentTime == 0) || (AUAudioRecorder.prototype.isFinished())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    return undefined;
 };
 
 
-// Plays the recording.
-AUAudioRecorder.prototype.play = function() {
-	audio.play();
-};
-
-
-// Pauses the recording.
-AUAudioRecorder.prototype.pause = function() {
-	audio.pause();
-};
-
-
-// Stops the recording. Calling 'play' will start it from the beginning.
-AUAudioRecorder.prototype.stop = function() {
-	audio.pause();
-	audio.currentTime = 0;
-};
-
-
-// Loops the recorded audio.
-AUAudioRecorder.prototype.loop = function(bool) {
-	if(bool == true) {
-		audio.loop = true;
-	} else {
-		audio.loop = false;
-	}
-};
-
-
-// Goes to the beginning of the audio.
-AUAudioRecorder.prototype.stepBackward = function() {
-	audio.currentTime = 0;
-};
-
-
-// Goes to the end of the audio.
-AUAudioRecorder.prototype.stepForward = function() {
-	audio.currentTime = audio.duration;
-};
-
-
-// Clears the current recording.
-AUAudioRecorder.prototype.clear = function() {
-	audio = null;
-};
-
-
-// Returns whether or not the audio is finished playing.
-AUAudioRecorder.prototype.isFinished = function() {
-	if(audio != null) { return audio.ended; }
+/* Returns the audio object that contains the final recording. */
+AUAudioRecorder.prototype.getRecording = function() {
+    if(audio != null) { return audio; }
 	return undefined;
 };
 
 
-// Sets the file type for the audio recording.
-// Ex.) mp3, wav, ogg, etc....
-AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
-	outputType = "audio/" + fileType + "; codecs=opus";
+/* Returns a Blob object, which can be used for file operations. */
+AUAudioRecorder.prototype.getRecordingFile = function() {
+    return theblob;
 };
 
 
-// Returns the audio object that contains the final recording.
-AUAudioRecorder.prototype.getRecording = function() {
-	return audio;
-};
-
-
-// This returns the media stream from the web audio API.
+/* This returns the media stream from the web audio API. */
 AUAudioRecorder.prototype.getStream = function() {
-	return mediaStream;
+    if(mediaStream != null) { return mediaStream; }
+	return undefined;
+};
+
+
+/* Returns the output file type. */
+AUAudioRecorder.prototype.getOutputType = function() {
+    if(outputType != null) { return outputType; }
+    return undefined;
+};
+
+
+/* Returns whether or not the audio is finished playing. */
+AUAudioRecorder.prototype.isFinished = function() {
+	if(audio != null) { return audio.ended; }
+	return undefined;
 };

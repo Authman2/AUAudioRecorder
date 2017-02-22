@@ -56,6 +56,10 @@ audioRec.hasPermission();
 ```javascript
 audioRec.getRecording();
 ```
+- **getRecordingFile()**: <br>Returns a Blob object that contains the recorded audio. This can be used for operations where a file is needed.
+```javascript
+audioRec.getRecordingFile();
+```
 - **setOutputFileType(fileType)**: <br>Sets the type of file that the audio will be formatted to. The "fileType" parameter is the file extension that you would like to use (i.e. mp3, wav, ogg). The default file type is mp3.
 ```javascript
 audioRec.setOutputFileType("mp3");
@@ -89,6 +93,7 @@ audioRec.stepForward();
 audioRec.clear();
 audioRec.isFinished();
 audioRec.getRecording();
+audioRec.getRecordingFile();
 audioRec.setOutputFileType("mp3");
 audioRec.getStream();
 

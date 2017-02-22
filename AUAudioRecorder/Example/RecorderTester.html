@@ -8,6 +8,7 @@
 		<button id="permissionid">Get Permission</button>
 		<button id="record">Record</button>
 		<button id="stopRecord">Stop Record</button>
+        <button id="loop">Loop</button>
 		<button id="play">Play</button>
 		<button id="pause">Pause</button>
 		<button id="stop">Stop</button>
@@ -16,7 +17,8 @@
 		<button id="clear">Clear</button>
 		<button id="finished">Check Finished</button>
 
-		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
+<!--		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>-->
+        <script type="text/javascript" src="../src/AUAudioRecorder.js"></script>
 	</body>
 
 
@@ -26,6 +28,7 @@
 		var permissionBtn = document.getElementById("permissionid");
 		var recordBtn = document.getElementById("record");
 		var stopRecordBtn = document.getElementById("stopRecord");
+        var loopBtn = document.getElementById('loop');
 		var playBtn = document.getElementById("play");
 		var pauseBtn = document.getElementById("pause");
 		var stopBtn = document.getElementById("stop");
@@ -47,11 +50,14 @@
 		stopRecordBtn.onclick = function() {
 			audioRec.stopRecording();
 		}
+        loopBtn.onclick = function() {
+            audioRec.loop(true);
+        }
 		playBtn.onclick = function() {
 			/* Either one could be used to play the audio. getRecording() just returns an audio object. */
 
 			audioRec.play();
-
+            audioRec.isPlaying();
 			// var myRecording = audioRec.getRecording();
 			// myRecording.play();
 		}

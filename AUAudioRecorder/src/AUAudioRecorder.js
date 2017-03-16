@@ -3,11 +3,11 @@ var AUAudioRecorder = function() {
 
 	var permission = false;
 
-	var mediaRecorder;
+	var mediaRecorder = new MediaRecorder(null);
 
-	var outputType; // Default is mp3
+	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
 
-	var audio;	// This "audio" variable serves as the final recording by the user.
+	var audio = document.createElement('audio');	// This "audio" variable serves as the final recording by the user.
 
     var theblob;   // The blob that can be used for file operations.
     
@@ -28,7 +28,6 @@ var AUAudioRecorder = function() {
 /* Asks the user for their permission to access the computer's microphone. */
 AUAudioRecorder.prototype.requestPermission = function() {
 	if(navigator.getUserMedia) {
-        outputType = "audio/mp3; codecs=opus";
 		// Definitions
 		var constraints = { audio: true };
 		var chunks = [];
@@ -42,7 +41,6 @@ AUAudioRecorder.prototype.requestPermission = function() {
 			mediaRecorder.onstop = function(e) {
 				// Create some new elements in the html
 				var clipContainer = document.createElement('article');
-				audio = document.createElement('audio');
 				clipContainer.classList.add('clip');
 				audio.setAttribute('controls', '');
 				clipContainer.appendChild(audio);
@@ -206,14 +204,14 @@ AUAudioRecorder.prototype.getRecordingFile = function() {
 
 /* This returns the media stream from the web audio API. */
 AUAudioRecorder.prototype.getStream = function() {
-    if(mediaStream != null && (typeof(audio) != null) && audio !== undefined) { return mediaStream; }
+    if(mediaStream != null && (typeof(mediaStream) != null) && mediaStream !== undefined) { return mediaStream; }
 	return null;
 };
 
 
 /* Returns the output file type. */
 AUAudioRecorder.prototype.getOutputType = function() {
-    if(outputType != null && (typeof(audio) != null) && audio !== undefined) { return outputType; }
+    if(outputType != null && (typeof(outputType) != null) && outputType !== undefined) { return outputType; }
     return null;
 };
 

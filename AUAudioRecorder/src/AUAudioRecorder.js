@@ -1,21 +1,22 @@
+var permission = false;
+
+var mediaRecorder;
+
+var outputType = "audio/mp3; codecs=opus"; // Default is mp3
+
+var audio;	// This "audio" variable serves as the final recording by the user.
+
+var theblob;   // The blob that can be used for file operations.
+
+var mediaStream;
+
+var shouldLoop = false;
+
+var playing = false;
+
+
 var AUAudioRecorder = function() {
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-
-	var permission = false;
-
-	var mediaRecorder;
-
-	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
-
-	var audio = document.createElement('audio');	// This "audio" variable serves as the final recording by the user.
-
-    var theblob;   // The blob that can be used for file operations.
-    
-	var mediaStream;
-
-	var shouldLoop = false;
-    
-    var playing = false;
 };
 
 
@@ -42,6 +43,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
 				// Create some new elements in the html
 				var clipContainer = document.createElement('article');
 				clipContainer.classList.add('clip');
+				audio = document.createElement('audio');
 				audio.setAttribute('controls', '');
 				clipContainer.appendChild(audio);
 
@@ -64,7 +66,7 @@ AUAudioRecorder.prototype.requestPermission = function() {
 			console.log("ERROR: " + err);
 		} // End of onError
 
-		this.permission = true;
+		permission = true;
 		navigator.getUserMedia(constraints, onSuccess, onError);
 	} // End of if-supported-statement.
 };
@@ -163,8 +165,8 @@ AUAudioRecorder.prototype.setOutputFileType = function(fileType) {
 
 /* Returns whether or not the program has the user's permission to use the microphone. */
 AUAudioRecorder.prototype.hasPermission = function() {
-	if(this.permission == undefined) return false;
-	return (this.permission == true) ? true : false;
+	if(permission == undefined) return false;
+	return (permission == true) ? true : false;
 };
 
 

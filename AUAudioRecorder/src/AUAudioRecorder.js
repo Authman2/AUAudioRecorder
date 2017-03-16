@@ -3,7 +3,7 @@ var AUAudioRecorder = function() {
 
 	var permission = false;
 
-	var mediaRecorder = new MediaRecorder(null);
+	var mediaRecorder;
 
 	var outputType = "audio/mp3; codecs=opus"; // Default is mp3
 

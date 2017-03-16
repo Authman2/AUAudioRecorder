@@ -172,7 +172,7 @@ AUAudioRecorder.prototype.hasPermission = function() {
 
 /* Returns whether or not the audio will loop. */
 AUAudioRecorder.prototype.isLooping = function() {
-    if(audio != null) {
+    if(audio != null && (typeof(audio) != null) && audio !== undefined) {
         if(audio.loop == true) { return true; } else { return false; }
     }
 };
@@ -180,20 +180,20 @@ AUAudioRecorder.prototype.isLooping = function() {
 
 /* Returns whether or not the audio is currently playing. */
 AUAudioRecorder.prototype.isPlaying = function() {
-    if(audio != null) {
+    if(audio != null && (typeof(audio) != null) && audio !== undefined) {
         if( (audio.currentTime == audio.duration && audio.loop == false) || (audio.currentTime == 0) || (AUAudioRecorder.prototype.isFinished())) {
             return false;
         } else {
             return true;
         }
     }
-    return undefined;
+    return false;
 };
 
 
 /* Returns the audio object that contains the final recording. */
 AUAudioRecorder.prototype.getRecording = function() {
-    if(audio != null && audio != undefined) { return audio; }
+    if(audio != null && (typeof(audio) != null) && audio !== undefined) { return audio; }
 	return null;
 };
 
@@ -206,20 +206,20 @@ AUAudioRecorder.prototype.getRecordingFile = function() {
 
 /* This returns the media stream from the web audio API. */
 AUAudioRecorder.prototype.getStream = function() {
-    if(mediaStream != null && audio != undefined) { return mediaStream; }
+    if(mediaStream != null && (typeof(audio) != null) && audio !== undefined) { return mediaStream; }
 	return null;
 };
 
 
 /* Returns the output file type. */
 AUAudioRecorder.prototype.getOutputType = function() {
-    if(outputType != null && audio != undefined) { return outputType; }
+    if(outputType != null && (typeof(audio) != null) && audio !== undefined) { return outputType; }
     return null;
 };
 
 
 /* Returns whether or not the audio is finished playing. */
 AUAudioRecorder.prototype.isFinished = function() {
-	if(audio != null && audio != undefined) { return audio.ended; }
+	if(audio != null && (typeof(audio) != null) && audio !== undefined) { return audio.ended; }
 	return null;
 };

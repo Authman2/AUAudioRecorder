@@ -193,7 +193,7 @@ AUAudioRecorder.prototype.isPlaying = function() {
 
 /* Returns the audio object that contains the final recording. */
 AUAudioRecorder.prototype.getRecording = function() {
-    if(audio != null) { return audio; }
+    if(audio != null && audio != undefined) { return audio; }
 	return null;
 };
 
@@ -206,20 +206,20 @@ AUAudioRecorder.prototype.getRecordingFile = function() {
 
 /* This returns the media stream from the web audio API. */
 AUAudioRecorder.prototype.getStream = function() {
-    if(mediaStream != null) { return mediaStream; }
+    if(mediaStream != null && audio != undefined) { return mediaStream; }
 	return null;
 };
 
 
 /* Returns the output file type. */
 AUAudioRecorder.prototype.getOutputType = function() {
-    if(outputType != null) { return outputType; }
+    if(outputType != null && audio != undefined) { return outputType; }
     return null;
 };
 
 
 /* Returns whether or not the audio is finished playing. */
 AUAudioRecorder.prototype.isFinished = function() {
-	if(audio != null) { return audio.ended; }
+	if(audio != null && audio != undefined) { return audio.ended; }
 	return null;
 };

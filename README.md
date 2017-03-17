@@ -40,7 +40,6 @@ audioRec.stepForward();
 audioRec.clear();
 ```
 - **isFinished()**: <br>Returns whether or not the audio is finished playing.
-<br>
 ```javascript
 audioRec.isFinished();
 ```

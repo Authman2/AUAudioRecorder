@@ -79,7 +79,6 @@ audioRec.getStream();
 ```javascript
 var audioRec = new AUAudioRecorder();
 
-
 audioRec.hasPermission();
 audioRec.requestPermission();
 audioRec.startRecording();
@@ -96,7 +95,6 @@ audioRec.getRecording();
 audioRec.getRecordingFile();
 audioRec.setOutputFileType("mp3");
 audioRec.getStream();
-
 
 ```
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var permission = false;
 
 var mediaRecorder;
@@ -223,3 +225,11 @@ AUAudioRecorder.prototype.isFinished = function() {
 	if(audio != null && (typeof(audio) != null) && audio !== undefined) { return audio.ended; }
 	return null;
 };
+
+
+
+
+
+/**
+*/
+module.exports = new AUAudioRecorder;

@@ -70,9 +70,19 @@ audioRec.getStream();
 
 
 # How To
-- Step 1: Add the script to your HTML file like so:
+- Step 1: Add the AUAudioRecorder to your web application. This can be done by using the script tag like so:
 ```html
 <script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
+```
+or by installing it with npm, as shown here:
+```javascript
+$npm install au-audio-recorder
+```
+then, in your JavaScript file typing:
+```javascript
+var audioRec = require('au-audio-recorder');
+// Or
+import audioRec from 'au-audio-recorder';
 ```
 - Step 2: Assuming you have already created buttons in your HTML file and already have your own Javascript file for your webpage, you can create a new AUAudioRecorder object and call methods from it when buttons are clicked.
 ```javascript

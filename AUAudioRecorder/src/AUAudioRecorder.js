@@ -193,7 +193,7 @@ AUAudioRecorder.prototype.isPlaying = function() {
 
 /* Returns the audio object that contains the final recording. */
 AUAudioRecorder.prototype.getRecording = function() {
-    if(audio != null && (typeof(audio) != null) && audio !== undefined) { return audio; }
+    if(audio != null) { return audio; }
 	return null;
 };
 

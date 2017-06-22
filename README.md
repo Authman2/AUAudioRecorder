@@ -88,17 +88,17 @@ import audioRec from 'au-audio-recorder';
 ```javascript
 var audioRec = new AUAudioRecorder();
 
-audioRec.hasPermission();
+audioRec.hasPermission( (err) => { console.log(err); } );
 audioRec.requestPermission();
-audioRec.startRecording();
-audioRec.stopRecording();
-audioRec.loop(true);
-audioRec.play();
-audioRec.pause();
-audioRec.stop();
-audioRec.stepBackward();
-audioRec.stepForward();
-audioRec.clear();
+audioRec.startRecording( (err) => { console.log(err); } );
+audioRec.stopRecording( (err) => { console.log(err); } );
+audioRec.loop(true, (err) => { console.log(err); } );
+audioRec.play( (err) => { console.log(err); } );
+audioRec.pause( (err) => { console.log(err); } );
+audioRec.stop( (err) => { console.log(err); } );
+audioRec.stepBackward( (err) => { console.log(err); } );
+audioRec.stepForward( (err) => { console.log(err); } );
+audioRec.clear( () => { /* callback */ } );
 audioRec.isFinished();
 audioRec.getRecording();
 audioRec.getRecordingFile();

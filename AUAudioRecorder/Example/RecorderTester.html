@@ -16,9 +16,10 @@
 		<button id="stepForward">Step Forward</button>
 		<button id="clear">Clear</button>
 		<button id="finished">Check Finished</button>
+		<button id="retrieve">Retrieve Audio</button>
 
-<!--		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>-->
-        <script type="text/javascript" src="../src/AUAudioRecorder.js"></script>
+		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
+        <!--<script type="text/javascript" src="../src/AUAudioRecorder.js"></script>-->
 	</body>
 
 
@@ -36,6 +37,7 @@
 		var stepForBtn = document.getElementById("stepForward");
 		var clearBtn = document.getElementById("clear");
 		var finishedBtn = document.getElementById("finished");
+		var retrieveBtn = document.getElementById("retrieve");
 
 		var audioRec = new AUAudioRecorder();
 
@@ -45,10 +47,14 @@
 			}
 		}
 		recordBtn.onclick = function() {
-			audioRec.startRecording();
+			audioRec.startRecording((errMessage) => {
+				console.log(errMessage);
+			});
 		}
 		stopRecordBtn.onclick = function() {
-			audioRec.stopRecording();
+			audioRec.stopRecording((errMessage) => {
+				console.log(errMessage);
+			});
 		}
         loopBtn.onclick = function() {
             audioRec.loop(true);
@@ -56,28 +62,42 @@
 		playBtn.onclick = function() {
 			/* Either one could be used to play the audio. getRecording() just returns an audio object. */
 
-			audioRec.play();
-            audioRec.isPlaying();
+			audioRec.play( (errMessage) => {
+				console.log(errMessage);
+			});
+            console.log( "Is Playing: " + audioRec.isPlaying() );
 			// var myRecording = audioRec.getRecording();
 			// myRecording.play();
 		}
 		pauseBtn.onclick = function() {
-			audioRec.pause();
+			audioRec.pause( (errMessage) => {
+				console.log(errMessage);
+			});
 		}
 		stopBtn.onclick = function() {
-			audioRec.stop();
+			audioRec.stop( (errMessage) => {
+				console.log(errMessage);
+			});
 		}
 		stepBackBtn.onclick = function() {
-			audioRec.stepBackward();
+			audioRec.stepBackward( (errMessage) => {
+				console.log(errMessage);
+			});
 		}
 		stepForBtn.onclick = function() {
-			audioRec.stepForward();
+			audioRec.stepForward( (errMessage) => {
+				console.log(errMessage);
+			});
 		}
 		clearBtn.onclick = function() {
 			audioRec.clear();
 		}
 		finishedBtn.onclick = function() {
 			console.log(audioRec.isFinished());
+		}
+		retrieveBtn.onclick = function() {
+			console.log( audioRec.getRecording() );
+			console.log( audioRec.getRecordingFile() );
 		}
 
 		

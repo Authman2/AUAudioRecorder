@@ -12,7 +12,8 @@
 		<button id="pauseBtn">Pause</button>
 		<p id="statusLabel">Status:</p>
 
-		<script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script>
+		<!-- <script type="text/javascript" src="https://adeolauthman.squarespace.com/s/AUAudioRecorder.js"></script> -->
+		<script type="text/javascript" src='../src/AUAudioRecorder.js'></script>
 	</body>
 
 
@@ -39,6 +40,8 @@
 
 		stopRecBtn.onclick = function() {
 			audioRecorder.stopRecording();
+
+			console.log(audioRecorder.getRecording());
 		}
 
 		playBtn.onclick = function() {

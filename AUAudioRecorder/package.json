@@ -21,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/Authman2/AUAudioRecorder/issues"
   },
-  "homepage": "https://github.com/Authman2/AUAudioRecorder#readme"
+  "homepage": "https://github.com/Authman2/AUAudioRecorder#readme",
+  "dependencies": {}
 }

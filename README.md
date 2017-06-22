@@ -5,39 +5,39 @@ An audio recorder written in Javascript and HTML. The main audio recorder is in 
 # Methods
 - **startRecording()**: <br>Starts the recording process. The method "requestPermission()" must be called first so that the program has permission to access the computer's microphone.
 ```javascript
-audioRec.startRecording();
+audioRec.startRecording(callback);
 ```
 - **stopRecording()**: <br>Stops recording and saves the recorded audio into a variable with a file type that can be specified by another method.
 ```javascript
-audioRec.stopRecording();
+audioRec.stopRecording(callback);
 ```
 - **play()**: <br>Plays the recorded audio in the browser.
 ```javascript
-audioRec.play();
+audioRec.play(callback);
 ```
 - **pause()**: <br>Pauses the audio that is playing. when the play button is clicked again the audio will resume from where it was.
 ```javascript
-audioRec.pause();
+audioRec.pause(callback);
 ```
 - **stop()**: <br>Stops the audio from playing and sends it back to the beginning.
 ```javascript
-audioRec.stop();
+audioRec.stop(callback);
 ```
 - **loop(bool)**: <br>Sets whether or not the audio should loop once it is played. Set the parameter "bool" to true or false for your desired option.
 ```javascript
-audioRec.loop(true);
+audioRec.loop(true,callback);
 ```
 - **stepBackward()**: <br>Starts the audio from the beginning but does not pause it.
 ```javascript
-audioRec.stepBackward();
+audioRec.stepBackward(callback);
 ```
 - **stepForward()**: <br>Sends the audio to the end. Basically just stops it from playing by doing this.
 ```javascript
-audioRec.stepForward();
+audioRec.stepForward(callback);
 ```
-- **clear()**: <br>Deletes the currently recorded audio.
+- **clear()**: <br>Deletes the currently recorded audio. This is the only callback that does not return an error message.
 ```javascript
-audioRec.clear();
+audioRec.clear(callback);
 ```
 - **isFinished()**: <br>Returns whether or not the audio is finished playing.
 ```javascript

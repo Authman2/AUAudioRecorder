@@ -30,29 +30,31 @@ class AUAudioRecorder {
 			var chunks = [];
 
 
-			var onSuccess = (stream) => {
-				// Initialize the media recorder
-				this.mediaRecorder = new MediaRecorder(stream);
-				this.mediaStream = stream;
+			var instance = this;
 
-				this.mediaRecorder.onstop = function(e) {
+			var onSuccess = function(stream) {
+				// Initialize the media recorder
+				instance.mediaRecorder = new MediaRecorder(stream);
+				instance.mediaStream = stream;
+
+				instance.mediaRecorder.onstop = function(e) {
 					chunks = [];
 				} // End of onstop action.
 
-				this.mediaRecorder.ondataavailable = (e) => {
+				instance.mediaRecorder.ondataavailable = function(e) {
 					chunks.push(e.data);
 					
 					// Retrieve the audio.
 					var audioURL = window.URL.createObjectURL(chunks[0]);
-					var blob = new Blob(chunks, { 'type' : this.outputType });
+					var blob = new Blob(chunks, { 'type' : instance.outputType });
 
-					this.audio = new Audio(audioURL);
-					this.theblob = blob;
+					instance.audio = new Audio(audioURL);
+					instance.theblob = blob;
 				} // End of ondataavailable action.
 
 			} // End of onSuccess
 
-			var onError = (err) => {
+			var onError = function(err) {
 				console.log("ERROR: " + err);
 			} // End of onError
 
@@ -64,7 +66,7 @@ class AUAudioRecorder {
 
 	/* Starts recording. */
 	startRecording(callback) {
-		if(this.mediaRecorder != null) {
+		if(this.mediaRecorder !== null) {
 			// If you have permission, start recording
 			if(this.hasPermission() === true) {
 				this.mediaRecorder.start();
@@ -85,7 +87,7 @@ class AUAudioRecorder {
 
 	/* Stops the recording. */
 	stopRecording(callback) {
-		if(this.mediaRecorder != null) {
+		if(this.mediaRecorder !== null) {
 			// Only stop recording if the state is recording.
 			if(this.mediaRecorder.state === 'recording') {
 				this.mediaRecorder.stop();
@@ -106,7 +108,7 @@ class AUAudioRecorder {
 
 	/* Plays the recording. */
 	play(callback) {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			// Play the audio
 			this.playing = true;
 			this.audio.play();
@@ -122,7 +124,7 @@ class AUAudioRecorder {
 
 	/* Pauses the recording. */
 	pause(callback) {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			this.audio.pause();
 			this.playing = false;
 
@@ -137,7 +139,7 @@ class AUAudioRecorder {
 
 	/* Stops the recording from playing. Calling 'play' will start it from the beginning. */
 	stop(callback) {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			this.audio.pause();
 			this.audio.currentTime = 0;
 			this.playing = false;
@@ -153,7 +155,7 @@ class AUAudioRecorder {
 
 	/* Loops the recorded audio. */
 	loop(bool, callback) {
-		if( this.audio != null ) {
+		if( this.audio !== null ) {
 			(bool == true) ? this.audio.loop = true : this.audio.loop = false;
 		} else {
 			if(callback) {
@@ -165,7 +167,7 @@ class AUAudioRecorder {
 
 	/* Goes to the beginning of the audio. */
 	stepBackward(callback) {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			this.audio.currentTime = 0;
 		} else {
 			if(callback) {
@@ -177,7 +179,7 @@ class AUAudioRecorder {
 
 	/* Goes to the end of the audio. */
 	stepForward(callback) {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			this.audio.currentTime = this.audio.duration;
 		} else {
 			if(callback) {
@@ -216,13 +218,13 @@ class AUAudioRecorder {
 
 	/* Returns whether or not the program has the user's permission to use the microphone. */
 	hasPermission() {
-		return (this.permission == true) ? true : false;
+		return (this.permission === true) ? true : false;
 	};
 
 
 	/* Returns whether or not the audio will loop. */
 	isLooping() {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			return this.audio.loop;
 		} else {
 			return false;
@@ -238,7 +240,7 @@ class AUAudioRecorder {
 
 	/* Returns the audio object that contains the final recording. */
 	getRecording() {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			return this.audio;
 		}
 		return null;
@@ -247,7 +249,7 @@ class AUAudioRecorder {
 
 	/* Returns a Blob object, which can be used for file operations. */
 	getRecordingFile() {
-		if(this.theblob != null) {
+		if(this.theblob !== null) {
 			return this.theblob;
 		}
 		return null;
@@ -256,7 +258,7 @@ class AUAudioRecorder {
 
 	/* This returns the media stream from the web audio API. */
 	getStream() {
-		if(this.mediaStream != null) { 
+		if(this.mediaStream !== null) { 
 			return this.mediaStream;
 		}
 		return null;
@@ -265,7 +267,7 @@ class AUAudioRecorder {
 
 	/* Returns the output file type. */
 	getOutputType() {
-		if(this.outputType != null) { 
+		if(this.outputType !== null) { 
 			return this.outputType;
 		}
 		return null;
@@ -274,7 +276,7 @@ class AUAudioRecorder {
 
 	/* Returns whether or not the audio is finished playing. */
 	isFinished() {
-		if(this.audio != null) {
+		if(this.audio !== null) {
 			return this.audio.ended;
 		}
 		return null;

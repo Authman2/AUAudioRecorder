@@ -1,27 +1,20 @@
 {
   "name": "au-audio-recorder",
-  "version": "1.5.75",
+  "version": "1.5.93",
   "description": "A very easy to use audio recorder written in JavaScript that allows the user to record audio in a browser or desktop application.",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Authman2/AUAudioRecorder.git"
+    "url": "https://github.com/Authman2/AUAudioRecorder"
   },
   "keywords": [
     "audio",
     "recorder",
-    "javascript",
-    "browser"
+    "javascript"
   ],
   "author": "Adeola Uthman",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Authman2/AUAudioRecorder/issues"
-  },
-  "homepage": "https://github.com/Authman2/AUAudioRecorder#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "license": "MIT"
 }
